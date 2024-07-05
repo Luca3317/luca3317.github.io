@@ -1,0 +1,20 @@
+---
+import Counter from '../components/Counter.astro'
+
+const response = await fetch('https://api.github.com/repos/Luca3317/TMPEffects');
+const tmpEffectsData = await response.json();
+
+var ageDifMs = Date.now() - Date.parse(tmpEffectsData.created_at);
+var ageDate = new Date(ageDifMs); // miliseconds from epoch
+var years = Math.abs(ageDate.getUTCFullYear() - 1970);
+
+---
+<div class="container">
+  <h2 class="mb-16 text-6xl">Counters</h2>
+  <div class="grid grid-cols-1 gap-12 sm:grid-cols-2 md:grid-cols-4">
+    <Counter count={tmpEffectsData.stargazers_count} title="Stars" sub="On GitHub" />
+    <Counter count={tmpEffectsData.subscribers_count} title="Watching" sub="The Project" />
+    <Counter count={tmpEffectsData.forks} title="Forks" sub="On GitHub" />
+    <Counter count={years} title="Years" sub="Since launch" />
+  </div>
+</div>

@@ -1,0 +1,70 @@
+---
+import DefaultLayout from '../layouts/DefaultLayout.astro'
+import Hero from '../components/Hero.astro'
+import Feature from '../components/Feature.astro'
+import FeatureNoIcon from '../components/FeatureNoIcon.astro'
+import Counter from '../components/Counter.astro'
+import ContentMedia from '../components/ContentMedia.astro'
+import { Icon } from 'astro-icon/components'
+import TMPEffectsHero from '../components/TMPEffectsHero.astro'
+import Counters from '../components/Counters.jsx'
+---
+
+
+<DefaultLayout title="Home">
+  <TMPEffectsHero />
+  <section >
+    <div class="container">
+      <h2 class="mb-16 text-6xl">Features</h2>
+      <div class="grid grid-cols-1 gap-12 md:grid-cols-2 lg:grid-cols-3">
+        <FeatureNoIcon title="Text Animation">
+            <img src="/tmpeffects.gif">
+          Animate text continuously over time, using simple tags.
+        </FeatureNoIcon>
+        <FeatureNoIcon title="Text Writer">
+            <img src="/write.gif">
+          Show (and hide) text over time.
+        </FeatureNoIcon>
+        <FeatureNoIcon title="Show animation">
+            <img src="/write-animated.gif">
+        Animate the show / hide sequence of the writing process.
+        </FeatureNoIcon>
+        <Feature icon="mdi:tag-multiple-outline" title="Text Events & Commands">
+          Automatically raise events and execute commands when the text is being written, again using simple rich text tags.
+        </Feature>
+        <Feature icon="mdi:animation-outline" title="Animation Customization">
+            <b>All</b> animations can be freely stacked with each other, and be modified using tag parameters.
+        </Feature>
+        <Feature icon="mdi:cube-send" title="Scene References">
+          Specialized MonoBehavior animations / commands allow you to easily reference scene objects.
+        </FeatureNoIcon>
+        <Feature icon="mdi:treasure-chest-outline" title="Built-in Animations & Commands">
+          Comes with 12+ built-in animations, 7+ hide / show animations and 5+ commands. All highly customizable with tag parameters and default SO settings.
+        </FeatureNoIcon>
+        <Feature icon="mdi:arm-flex-outline" title="Powerful API">
+          A powerful and streamlined API allows you to create your own animations and commands in no time.
+        </Feature>
+        
+        </div>
+
+<br><br><hr><br>
+
+        <div class="grid grid-cols-1 gap-12 md:grid-cols-2 lg:grid-cols-3">
+
+            <Feature icon="mdi:run-fast" title="Performant">
+                TMPEffects is fast, and can handle many characters being animated at once without much performance cost.
+              </Feature>
+              <Feature icon="mdi:open-source-initiative"title="Open Source">
+                TMPEffects is open-source, so if there's something you want to fix or improve please contribute to the <a href="https://tmpeffects.luca3317.dev/docs/introduction.html">GitHub repository</a>!
+              </Feature>
+              <Feature icon="mdi:file-document-check-outline" title="Well-Documented">
+                Extensive documentation about how to use TMPEffects and its API can be found <a href="https://tmpeffects.luca3317.dev/docs/introduction.html">here</a>!
+              </Feature>                 
+      </div>
+    </div>
+  </section>
+  <section class="mt-32 mb-32">
+      <Counters client:load />
+  </section>
+</DefaultLayout>
+
