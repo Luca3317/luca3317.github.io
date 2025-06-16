@@ -1,78 +1,98 @@
 ---
-layout: ../layouts/ResumeLayout.astro
-title: "Resume - Your Name"
-description: "A professional resume for Your Name"
+import ResumeLayout from '../layouts/ResumeLayout.astro';
+
+const title = "Resume - Your Name";
+const description = "A professional resume for Your Name";
 ---
 
-# Your Name
+<ResumeLayout {title} {description}>
+  <h1>Your Name</h1>
+  <p><strong>Email:</strong> <a href="mailto:your.email@example.com">your.email@example.com</a></p>
+  <p><strong>Phone:</strong> +49 123 456789</p>
+  <p><strong>Location:</strong> Bonn, Germany</p>
+  <p><strong>Website:</strong> <a href="https://yourwebsite.com">yourwebsite.com</a></p>
 
-**Email:** [your.email@example.com](mailto:your.email@example.com)  
-**Phone:** +49 123 456789  
-**Location:** Bonn, Germany  
-**Website:** [yourwebsite.com](https://yourwebsite.com)
+  <hr />
 
----
+  <h2>Summary</h2>
+  <p>
+    Passionate and results-driven software engineer with extensive experience in web development. Skilled in building modern and responsive websites using frameworks like <strong>Astro</strong>, React, and Next.js. Adept at translating complex technical requirements into visual and performant applications while fostering effective team collaboration.
+  </p>
 
-## Summary
+  <hr />
 
-Passionate and results-driven software engineer with extensive experience in web development. Skilled in building modern and responsive websites using frameworks like **Astro**, React, and Next.js. Adept at translating complex technical requirements into visual and performant applications while fostering effective team collaboration.
+  <h2>Skills</h2>
+  <ul>
+    <li><strong>Languages:</strong> JavaScript, TypeScript, Python, HTML, CSS</li>
+    <li><strong>Frameworks:</strong> Astro, React, Next.js</li>
+    <li><strong>Tools:</strong> Git, Docker, VS Code, Webpack, CI/CD</li>
+    <li><strong>Design:</strong> Responsive design, UI/UX principles, performance optimization</li>
+  </ul>
 
----
+  <hr />
 
-## Skills
+  <h2>Experience</h2>
+  <h3>Software Engineer</h3>
+  <p>
+    <strong>Awesome Innovations GmbH, Berlin, Germany</strong><br />
+    <em>January 2020 – Present</em>
+  </p>
+  <ul>
+    <li>Developed and maintained dynamic web applications with <strong>Astro</strong> and React, achieving a notable 30% improvement in page load times.</li>
+    <li>Collaborated in agile teams to design user-friendly interfaces and implement scalable solutions.</li>
+    <li>Integrated modern development practices including continuous integration and automated testing.</li>
+  </ul>
 
-- **Languages:** JavaScript, TypeScript, Python, HTML, CSS
-- **Frameworks:** Astro, React, Next.js
-- **Tools:** Git, Docker, VS Code, Webpack, CI/CD
-- **Design:** Responsive design, UI/UX principles, performance optimization
+  <h3>Front-End Developer</h3>
+  <p>
+    <strong>Creative Solutions AG, Bonn, Germany</strong><br />
+    <em>June 2018 – December 2019</em>
+  </p>
+  <ul>
+    <li>Built pixel-perfect, responsive UI components using modern JavaScript libraries.</li>
+    <li>Utilized <strong>Astro</strong> for rapid static site generation and enhanced SEO performance.</li>
+    <li>Worked closely with designers and backend developers to deliver cohesive digital experiences.</li>
+  </ul>
 
----
+  <hr />
 
-## Experience
+  <h2>Education</h2>
+  <h3>Bachelor of Science in Computer Science</h3>
+  <p>
+    <strong>University of Bonn, Bonn, Germany</strong><br />
+    <em>2014 – 2018</em>
+  </p>
+  <ul>
+    <li>Relevant coursework: Software Engineering, Web Development, Data Structures, and Algorithms.</li>
+    <li>Achievements: Dean’s List, Active Member of the Coding Club.</li>
+  </ul>
 
-### Software Engineer  
-**Awesome Innovations GmbH, Berlin, Germany**  
-*January 2020 – Present*  
-- Developed and maintained dynamic web applications with **Astro** and React, achieving a notable 30% improvement in page load times.  
-- Collaborated in agile teams to design user-friendly interfaces and implement scalable solutions.  
-- Integrated modern development practices including continuous integration and automated testing.
+  <hr />
 
-### Front-End Developer  
-**Creative Solutions AG, Bonn, Germany**  
-*June 2018 – December 2019*  
-- Built pixel-perfect, responsive UI components using modern JavaScript libraries.  
-- Utilized **Astro** for rapid static site generation and enhanced SEO performance.  
-- Worked closely with designers and backend developers to deliver cohesive digital experiences.
+  <h2>Projects</h2>
+  <h3>Portfolio Website</h3>
+  <ul>
+    <li>Developed a personal portfolio site using <strong>Astro</strong> to showcase digital projects and blog posts.</li>
+    <li>Focused on performance optimization, SEO best practices, and modern design trends.</li>
+  </ul>
 
----
+  <h3>Open Source Contributions</h3>
+  <ul>
+    <li>Actively contributed to various open-source initiatives by improving documentation, code quality, and performance.</li>
+    <li>Collaborated with international teams on GitHub to resolve critical bugs and implement new features.</li>
+  </ul>
 
-## Education
+  <hr />
 
-### Bachelor of Science in Computer Science  
-**University of Bonn, Bonn, Germany**  
-*2014 – 2018*  
-- Relevant coursework: Software Engineering, Web Development, Data Structures, and Algorithms.  
-- Achievements: Dean’s List, Active Member of the Coding Club.
+  <h2>Certifications</h2>
+  <ul>
+    <li><strong>Certified JavaScript Developer</strong> – [Certification Body, 2021]</li>
+    <li><strong>Responsive Web Design Certification</strong> – [Certification Authority, 2020]</li>
+  </ul>
 
----
+  <hr />
 
-## Projects
-
-### Portfolio Website  
-- Developed a personal portfolio site using **Astro** to showcase digital projects and blog posts.  
-- Focused on performance optimization, SEO best practices, and modern design trends.
-
-### Open Source Contributions  
-- Actively contributed to various open-source initiatives by improving documentation, code quality, and performance.  
-- Collaborated with international teams on GitHub to resolve critical bugs and implement new features.
-
----
-
-## Certifications
-
-- **Certified JavaScript Developer** – [Certification Body, 2021]  
-- **Responsive Web Design Certification** – [Certification Authority, 2020]
-
----
-
-*This resume is generated in Markdown and styled with Astro for a clean, modern, and responsive presentation.*
+  <p>
+    <em>This resume is generated in Markdown and styled with Astro for a clean, modern, and responsive presentation.</em>
+  </p>
+</ResumeLayout>
