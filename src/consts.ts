@@ -1,0 +1,76 @@
+import type { IconMap, SocialLink, Site } from '@/types'
+
+export const SITE: Site = {
+  title: 'Luca\'s Website',
+  description:
+    'I have multiple years of professional experience developing multiplayer games and tools in Unity.\n This is my personal website where I share my resume, blog posts, and projects.',
+  href: 'https://luca3317.dev',
+  author: 'Luca Weist',
+  locale: 'en-US',
+  featuredPostCount: 0,
+  postsPerPage: 0,
+}
+
+// Google Analytics
+// Configure via environment variable: PUBLIC_GOOGLE_ANALYTICS_ID
+export const ANALYTICS = {
+  google: import.meta.env.PUBLIC_GOOGLE_ANALYTICS_ID || '',
+}
+
+// Umami Analytics
+// Configure via environment variable: PUBLIC_UMAMI_WEBSITE_ID
+export const UMAMI = {
+  websiteId: import.meta.env.PUBLIC_UMAMI_WEBSITE_ID || '',
+}
+
+// Disqus Comments
+// Get your shortname from https://disqus.com/admin/settings/general/
+// Set it as an environment variable: PUBLIC_DISQUS_SHORTNAME=your-shortname
+export const DISQUS = {
+  shortname: import.meta.env.PUBLIC_DISQUS_SHORTNAME || '', 
+}
+
+// Brevo Newsletter
+// Get your API key from https://app.brevo.com/settings/keys/api
+// Set it as an environment variable: BREVO_API_KEY=your-api-key
+// Optional: Set BREVO_LIST_ID to automatically add subscribers to a specific list
+// Optional: Set BREVO_TEMPLATE_ID for double opt-in confirmation email (default: 5)
+export const BREVO = {
+  apiKey: import.meta.env.BREVO_API_KEY || '',
+  listId: import.meta.env.BREVO_LIST_ID || '',
+  templateId: import.meta.env.BREVO_TEMPLATE_ID || '5',
+}
+
+export const NAV_LINKS: SocialLink[] = [
+  {
+    href: '/tmpeffects',
+    label: 'TMPEffects',
+  },
+  {
+    href: '/blog',
+    label: 'Blog',
+  },
+  {
+    href: '/about',
+    label: 'About',
+  },
+]
+
+export const SOCIAL_LINKS: SocialLink[] = [
+]
+
+export const ICON_MAP: IconMap = {
+  Website: 'lucide:globe',
+  GitHub: 'lucide:github',
+  LinkedIn: 'lucide:linkedin',
+  Twitter: 'lucide:twitter',
+  Email: 'lucide:mail',
+  RSS: 'lucide:rss',
+}
+
+// Newsletter consent text (centralized for GDPR compliance)
+export const NEWSLETTER_CONSENT_TEXT = {
+  text: 'I agree to receive newsletter emails.',
+  privacyLink: '/privacy',
+  privacyText: 'Privacy Policy',
+}

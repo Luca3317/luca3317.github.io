@@ -1,70 +1,146 @@
 ---
-import DefaultLayout from '../layouts/DefaultLayout.astro'
-import Hero from '../components/Hero.astro'
-import Feature from '../components/Feature.astro'
-import FeatureNoIcon from '../components/FeatureNoIcon.astro'
-import Counter from '../components/Counter.astro'
-import ContentMedia from '../components/ContentMedia.astro'
+import Breadcrumbs from '@/components/Breadcrumbs.astro'
+import PageHead from '@/components/PageHead.astro'
+import Layout from '@/layouts/Layout.astro'
+import { SITE } from '@/consts'
+import Feature from '@/components/Feature.astro'
+import FeatureNoIcon from '@/components/FeatureNoIcon.astro'
+import Counters from '@/components/Counters.jsx'
 import { Icon } from 'astro-icon/components'
-import TMPEffectsHero from '../components/TMPEffectsHero.astro'
-import Counters from '../components/Counters.jsx'
+
+const personSchema = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": SITE.title,
+  "url": SITE.href,
+  "description": SITE.description
+}
 ---
 
+<Layout class="max-w-5xl">
+  <PageHead slot="head" title="TMPEffects" />
+  
+  <script type="application/ld+json" set:html={JSON.stringify(personSchema)} />
+  
+  <Breadcrumbs items={[{ label: 'TMPEffects', icon: 'lucide:type-outline' }]} />
 
-<DefaultLayout title="TMPEffects">
-  <TMPEffectsHero />
-  <section >
+<section class="py-20 lg:py-32 text-center relative">
+    {/* Background Glow (Optional) */}
+    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-primary/20 blur-[100px] rounded-full -z-10 pointer-events-none"></div>
+
+    <div class="container px-4">
+      <h1 class="text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight text-white mb-6">
+        Upgrade your Unity texts <br class="hidden md:block" />
+        with <span class="text-primary">TMPEffects</span>
+      </h1>
+      
+      <p class="text-xl text-muted-foreground max-w-2xl mx-auto mb-10 leading-relaxed">
+        The ultimate open-source solution for text animations, writer events, and rich text commands in Unity.
+      </p>
+      
+      <div class="flex flex-wrap items-center justify-center gap-4">
+        
+        {/* GitHub Button */}
+        <a 
+          href="https://github.com/Luca3317/TMPEffects" 
+          target="_blank"
+          class="flex items-center gap-2 px-6 py-3 bg-[#161616] text-white border border-white/10 rounded-lg hover:border-primary/50 hover:text-primary transition-all duration-300 font-medium"
+        >
+          <Icon name="mdi:github" class="size-5" />
+          <span>GitHub</span>
+        </a>
+
+        {/* Documentation Button */}
+        <a 
+          href="https://tmpeffects.luca3317.dev/manual/introduction.html" 
+          target="_blank"
+          class="flex items-center gap-2 px-6 py-3 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-all duration-300 font-medium shadow-lg shadow-primary/20"
+        >
+          <Icon name="mdi:book-open-page-variant" class="size-5" />
+          <span>Documentation</span>
+        </a>
+
+        {/* Ko-fi Button */}
+        <a 
+          href="https://ko-fi.com/lweist3317" 
+          target="_blank"
+          class="flex items-center gap-2 px-6 py-3 bg-[#161616] text-white border border-white/10 rounded-lg hover:border-[#FF5E5B] hover:text-[#FF5E5B] transition-all duration-300 font-medium"
+        >
+          <Icon name="mdi:coffee" class="size-5" />
+          <span>Support Me</span>
+        </a>
+
+      </div>
+    </div>
+  </section>
+
+  <section class="mt-12">
     <div class="container">
-      <h2 class="mb-16 text-6xl">Features</h2>
-      <div class="grid grid-cols-1 gap-12 md:grid-cols-2 lg:grid-cols-3">
+      <h2 class="mb-12 text-4xl font-bold tracking-tight">Features</h2>
+      
+      <div class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+        {/* Note: Removed 'public/' from src paths */}
         <FeatureNoIcon title="Text Animation">
-            <img src="/tmpeffects.gif">
+            <img src="public/tmpeffects.gif" alt="Text Animation Demo" />
           Animate text continuously over time, using simple tags.
-        </FeatureNoIcon>
+        </FeatureNoIcon> 
+
         <FeatureNoIcon title="Text Writer">
-            <img src="/write.gif">
+            <img src="public/write.gif" alt="Writer Demo" />
           Show (and hide) text over time.
         </FeatureNoIcon>
+
         <FeatureNoIcon title="Show animation">
-            <img src="/write-animated.gif">
+            <img src="public/write-animated.gif" alt="Show Animation Demo" />
         Animate the show / hide sequence of the writing process.
         </FeatureNoIcon>
+
         <Feature icon="mdi:tag-multiple-outline" title="Text Events & Commands">
           Automatically raise events and execute commands when the text is being written, again using simple rich text tags.
         </Feature>
+
         <Feature icon="mdi:animation-outline" title="Animation Customization">
-            <b>All</b> animations can be freely stacked with each other, and be modified using tag parameters.
+            <span class="text-white font-medium">All</span> animations can be freely stacked with each other, and be modified using tag parameters.
         </Feature>
+
         <Feature icon="mdi:cube-send" title="Scene References">
           Specialized MonoBehavior animations / commands allow you to easily reference scene objects.
-        </FeatureNoIcon>
-        <Feature icon="mdi:treasure-chest-outline" title="Built-in Animations & Commands">
-          Comes with 12+ built-in animations, 7+ hide / show animations and 5+ commands. All highly customizable with tag parameters and default SO settings.
-        </FeatureNoIcon>
+        </Feature> {/* FIXED: Was </FeatureNoIcon> */}
+
+        <Feature icon="mdi:treasure-chest-outline" title="Built-in Content">
+          Comes with 12+ built-in animations, 7+ hide/show animations and 5+ commands. All highly customizable.
+        </Feature>
+
         <Feature icon="mdi:arm-flex-outline" title="Powerful API">
           A powerful and streamlined API allows you to create your own animations and commands in no time.
         </Feature>
         
-        </div>
+      </div>
 
-<br><br><hr><br>
+{/* Divider */}
+      <div class="py-20 flex items-center justify-center">
+        {/* Gradient Line: Fade from transparent -> bright white -> transparent */}
+        <div class="h-[1px] w-full max-w-2xl bg-gradient-to-r from-transparent via-white/30 to-transparent"></div>
+      </div>
 
-        <div class="grid grid-cols-1 gap-12 md:grid-cols-2 lg:grid-cols-3">
-
-            <Feature icon="mdi:run-fast" title="Performant">
-                TMPEffects is fast, and can handle many characters being animated at once without much performance cost.
-              </Feature>
-              <Feature icon="mdi:open-source-initiative"title="Open Source">
-                TMPEffects is open-source, so if there's something you want to fix or improve please contribute to the <a href="https://tmpeffects.luca3317.dev/manual/introduction.html">GitHub repository</a>!
-              </Feature>
-              <Feature icon="mdi:file-document-check-outline" title="Well-Documented">
-                Extensive documentation about how to use TMPEffects and its API can be found <a href="https://tmpeffects.luca3317.dev/manual/introduction.html">here</a>!
-              </Feature>                 
+      <div class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+          <Feature icon="mdi:run-fast" title="Performant">
+            TMPEffects is fast, and can handle many characters being animated at once without much performance cost.
+          </Feature>
+          
+          <Feature icon="mdi:open-source-initiative" title="Open Source"> {/* FIXED: Added space before title */}
+            TMPEffects is open-source! <a href="https://github.com/Luca3317/TMPEffects" class="text-primary hover:underline">Contribute on GitHub</a>.
+          </Feature>
+          
+          <Feature icon="mdi:file-document-check-outline" title="Well-Documented">
+            Extensive documentation about how to use TMPEffects can be found <a href="https://tmpeffects.luca3317.dev/manual/introduction.html" class="text-primary hover:underline">here</a>!
+          </Feature>                
       </div>
     </div>
   </section>
-  <section class="mt-32 mb-32">
+
+  <section class="mt-24 mb-32">
       <Counters client:load />
   </section>
-</DefaultLayout>
-
+  
+</Layout>

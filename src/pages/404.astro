@@ -1,17 +1,29 @@
 ---
-import DefaultLayout from '../layouts/DefaultLayout.astro'
+import Breadcrumbs from '@/components/Breadcrumbs.astro'
+import Link from '@/components/Link.astro'
+import PageHead from '@/components/PageHead.astro'
+import { buttonVariants } from '@/components/ui/button'
+import Layout from '@/layouts/Layout.astro'
+import { cn } from '@/lib/utils'
 ---
 
-<DefaultLayout title="404">
-  <section class="my-12">
-    <div class="container">
-      <h1>404</h1>
+<Layout class="max-w-3xl">
+  <PageHead slot="head" title="404" />
+  <Breadcrumbs items={[{ label: '???', icon: 'lucide:circle-help' }]} />
+
+  <section
+    class="flex flex-col items-center justify-center gap-y-4 text-center"
+  >
+    <div class="max-w-md">
+      <h1 class="mb-4 text-3xl font-medium">404: Page not found</h1>
+      <p class="prose">Oops! The page you're looking for doesn't exist.</p>
     </div>
+    <Link
+      href="/"
+      class={cn(buttonVariants({ variant: 'outline' }), 'flex gap-x-1.5 group')}
+    >
+      <span class="transition-transform group-hover:-translate-x-1">&larr;</span
+      > Go to home page
+    </Link>
   </section>
-  <section class="my-12">
-    <div class="space-content container">
-      <p class="text-2xl">This page does not exist. Don't worry though, we got you.</p>
-      <a class="button" href="/">Let's get you home Astronout 🚀</a>
-    </div>
-  </section>
-</DefaultLayout>
+</Layout>

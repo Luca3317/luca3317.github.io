@@ -1,139 +1,512 @@
 ---
-import DefaultLayout from '../layouts/DefaultLayout.astro'
-import Hero from '../components/Hero.astro'
-import Feature from '../components/Feature.astro'
-import Counter from '../components/Counter.astro'
-import ContentMedia from '../components/ContentMedia.astro'
+import BlogCard from '@/components/BlogCard.astro'
+import Link from '@/components/Link.astro'
+import PageHead from '@/components/PageHead.astro'
+import Skills from '@/components/react/Skills'
+import { ErrorBoundary } from '@/components/react/ErrorBoundary'
+import { buttonVariants } from '@/components/ui/button'
+import Layout from '@/layouts/Layout.astro'
 import { Icon } from 'astro-icon/components'
+import { getRecentPosts } from '@/lib/data-utils'
+import { cn } from '@/lib/utils'
+import { SOCIAL_LINKS, ICON_MAP, SITE } from '@/consts'
+import type { SocialLink } from '@/types'
+
+import Home from "@/components/testhome.astro"; 
+import Contact from "@/components/contact.astro"; 
+
+// Error handling for fetching recent posts
+let latestPosts: Awaited<ReturnType<typeof getRecentPosts>> = []
+try {
+  latestPosts = await getRecentPosts(2)
+} catch (error) {
+  console.error('Error fetching recent posts:', error)
+}
+
+// SEO Schemas
+const personSchema = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": SITE.title,
+  "url": SITE.href,
+  "description": SITE.description
+}
+
+const organizationSchema = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": SITE.title,
+  "url": SITE.href,
+  "description": SITE.description
+}
+
+const websiteSchema = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": SITE.title,
+  "url": SITE.href,
+  "description": SITE.description,
+  "potentialAction": {
+    "@type": "SearchAction",
+    "target": {
+      "@type": "EntryPoint",
+      "urlTemplate": `${SITE.href}/blog?q={search_term_string}`
+    },
+    "query-input": "required name=search_term_string"
+  }
+}
+
+type ProjectItem = {
+  title: string
+  description: string
+  image?: string
+  link?: string
+}
+
+const projects : ProjectItem[] = [
+  {
+    title: 'TMPEffects',
+    description: 'Upgrade your Unity texts!\n'+
+    'With TMPEffects, you can easily animate your text over time, show and hide text character by character (with specialized animations), and raise events and execute commands '+
+    'at any given index, all of this just using custom rich text tags.\n' + 
+    'A powerful API allows you to create your own animations and commands, either as Monobehaviors (which allow you to easily reference scene objects) or as normal C# classes.',
+    image: 'Homepage/projects/tmpeffects.gif',
+    link: 'https://github.com/Luca3317/TMPEffects'
+  },
+  {
+    title: 'GameJam Entries',
+    description: 'My various entries for GameJams.\n'+
+    '• Horror Demo - Made in free time while working on my Bachelor\'s degree' +
+    'Complete (but unpolished) First person horror game controller\n' + 
+    '• Returned - Made in 9 days for the GameDev.tv Jam. Point and click puzzle adventure game.\n' + 
+    '• Endless Terminal Hacking - Made in 2 days for the MixJam 10. Recreation of the hacking minigame in the 3D Fallout games.',
+    image: 'Homepage/projects/gamejam.png',
+    link: 'https://luca3317.itch.io/'
+  },
+  {
+    title: 'OpenLibrary.NET',
+    description: 'An extensive C# library for interfacing with all stable APIs of OpenLibrary by the InternetArchive.\n\n' +
+    'Originally created as part of a bookstore shopping simulator',
+    image: 'Homepage/projects/openlibrary.png',
+    link: 'https://github.com/Luca3317/OpenLibrary.NET/'
+  },
+  {
+    title: 'University Projects',
+    description: '<b>Lab: "Ghidra PlugIn: Detecting unsecure functions</b>"\n' +
+    'Development of a plugin for Ghidra that automatically detects various categories of unsecure C functions in compiled programs\n' +
+    '(CWE-476, -125, -787, -416, and -415)\n\n' +
+    '<b>Bachelor\'s Thesis: "Performance Evaluation of Security Protocols in LibP2P Connections"</b>\n' +
+    'In-depth performance analysis of the various existing security protocols for LibP2P. Implementation of the Signal protocol compatible with LibP2P in Golang.'
+  },
+]
+
+type EducationItem = {
+  degree: string
+  institution: string
+  period: string
+  icon: string
+  key: string
+}
+
+const education: EducationItem[] = [
+  {
+    degree: 'B.Sc. in Computer Science',
+    institution: 'University of Bonn',
+    period: '2018 - 2022',
+    icon: 'lucide:university',
+    key: 'Finished my Bachelor with a final grade of 1.3 • equiv. roughly to a GPA of 3.7'
+  },
+  {
+    degree: 'German Abitur',
+    institution: 'Ernst-Kalkuhl-Gymnasium Bonn',
+    period: '2018 - 2022',
+    icon: 'lucide:school',
+    key: ''
+  },
+]
+
+type ExperienceItem = {
+  role: string
+  company: string
+  period: string
+  current?: boolean
+  icon: string
+  key: string
+  game?: string
+  image?: string
+  link?: string
+}
+
+const experience: ExperienceItem[] = [
+  {
+    role: 'Junior - Intermediate Game Developer',
+    company: 'SmokeStack Studios',
+    period: 'Feb. 2025 - Present',
+    current: true,
+    icon: 'lucide:flame',
+    game: "Aries - Virtual Training Simulations; training software for fire departments used in Texas",
+    key: 'Implemented AI-assisted analysis of radio communications, physically-simulated firehose, dynamic audio occlusion, and more • Improved NPC AI and room pressure systems • Utilized Netcode for multiplayer features • Collaborated with international team',
+    image: 'Homepage/projects/aries.png',
+    link: 'https://www.smkstackstudios.com/aries'
+  },
+  {
+    role: 'Assistant Programmer',
+    company: 'Flufflesocket Studios',
+    game: 'Farseer\'s Domain - A simultaneous, turn-based MOBA',
+    period: 'Aug. 2024 - Feb. 2025',
+    icon: 'lucide:swords',
+    key: 'Implemented new character abilities, lobby functionality, and status effects • Maintained engine systems • Managed German localization',
+    image: 'Homepage/projects/fdlogo.png',
+    link: 'https://www.farseersdomain.com'
+  },
+  {
+    role: 'Previous Hobbyist Experience',
+    company: '',
+    period: '',
+    icon: 'lucide:baby',
+    key: 'Programming since 2017; working with Unity since 2019'
+  },
+]
 ---
+<Layout class="max-w-3xl" transition:persist="home-layout">
+  <PageHead slot="head" title={SITE.title} fullTitle={true} />
+  
+  <script type="application/ld+json" set:html={JSON.stringify(personSchema)} />
+  <script type="application/ld+json" set:html={JSON.stringify(organizationSchema)} />
+  <script type="application/ld+json" set:html={JSON.stringify(websiteSchema)} />
+  
+<section class="min-h-[calc(100vh-4rem)] flex flex-col justify-center pb-60 sm:pb-32 mb-12 sm:mb-24 relative">
+  <Home />
+  <div class="absolute bottom-32 sm:bottom-12 left-1/2 -translate-x-1/2 animate-bounce text-muted-foreground/50">
+    <Icon name="lucide:chevron-down" class="size-6" />
+  </div>
+</section>
 
+<section class="mt-16 mb-12">
+  <div class="mb-6">
+    <h2 class="text-2xl font-semibold mb-2">About Me</h2>
+  </div>
+  
+  <div class="text-muted-foreground leading-relaxed">
+    <img 
+      src="Homepage/public/johndoe.jpg" 
+      alt="Me!" 
+      class="float-right rounded-2xl object-cover shadow-lg border border-border ml-6 mb-4 w-32 h-32 md:w-48 md:h-48 [shape-outside:inset(0%)]"
+    />
 
-<DefaultLayout title="Home">
-  <Hero />
-  <section >
-    <div class="container">
-      <h2 class="mb-16 text-6xl">Projects</h2>
+    <p class="mb-4">
+      I'm Luca, a passionate Game Developer from Germany. I picked up game development in 2019 as a hobby while studying computer science at the University of Bonn, and it quickly became a passion and now more recently also my profession.
+    </p>
+    
+    <p class="mb-4">
+      During the ~1.5 years I've been working professionally as a game developer, I've focused on gameplay programming and taking over generalist roles as both projects I have worked on have been relatively small teams. This has allowed me to gain experience in various areas of game development and more specifically the Unity engine.
+      <br />
+      I currently work freelance as a Junior-Intermediate Developer at SmokeStack Studios.
+    </p>
+
+    <p>
+      Beyond gameplay programming, I have an interest in <strong>tooling and systems development</strong> that help accelerate development workflows. 
+      I enjoy creating packages and editor extensions that allow other developers and artists to work more efficiently.
+    </p>
+
+    <div class="clear-both"></div>
+  </div>
+</section>
+
+  <section class="mt-8">
+    <div class="mb-6">
+      <h2 class="text-2xl font-semibold mb-2">Experience</h2>
+    </div>
+    
+    <div class="space-y-6">
+      {experience.map((exp, index) => (
+        <div class={cn(
+          "relative rounded-xl transition-all duration-200 -mx-3 px-3 py-2",
+          exp.link ? "group hover:bg-muted/40 cursor-pointer" : ""
+        )}>
+          {exp.link && (
+            <a href={exp.link} target="_blank" rel="noopener noreferrer" class="absolute inset-0 z-20" aria-label={`View details for ${exp.role}`} />
+          )}
+          
+          {/* Timeline Line - Stops before the last (hobbyist) item */}
+          {index < experience.length - 1 && (
+            <div class="absolute left-[23px] top-10 bottom-0 w-px bg-border" aria-hidden="true"></div>
+          )}
+
+          <div class="flex gap-4 relative z-10">
+            <div class={`relative flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center ring-4 ring-background z-10 ${
+              exp.current ? "bg-primary text-primary-foreground shadow-lg shadow-primary/20" : "bg-muted text-muted-foreground"
+            }`}>
+              <Icon name={exp.icon} class="size-3.5" />
+            </div>
+
+            <div class="flex-1 pb-2 min-w-0">
+              <div class="flex justify-between items-start gap-4">
+                <div class="flex-1">
+                  <h3 class={cn("font-semibold text-lg leading-tight transition-colors", exp.link && "group-hover:text-primary")}>
+                    {exp.role}
+                  </h3>
+                  {exp.company && <p class="text-sm text-muted-foreground">{exp.company} {exp.period && `· ${exp.period}`}</p>}
+                  {exp.game && <p class="text-sm font-medium text-foreground/80 italic mt-1 leading-snug">{exp.game}</p>}
+                </div>
+                {exp.image && (
+                  <div class="shrink-0">
+                    <img src={exp.image} alt="" class="max-w-[100px] sm:max-w-[150px] max-h-20 w-auto h-auto rounded-md object-contain" />
+                  </div>
+                )}
+              </div>
+              <p class="text-sm text-muted-foreground/90 leading-relaxed mt-3">{exp.key}</p>
+            </div>
+          </div>
+        </div>
+      ))}
+
+      <div class="relative rounded-xl transition-all duration-200 -mx-3 px-3 py-2">
+        <div class="flex gap-4 relative z-10">
+          <div class="relative flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center ring-4 ring-background z-10 bg-muted text-muted-foreground">
+            <Icon name="lucide:box" class="size-3.5" />
+          </div>
+
+<div class="flex-1 pb-2 min-w-0">
+  <details class="group"> <summary class="group/summary flex items-center justify-between cursor-pointer list-none outline-none select-none">
+      <h3 class="font-semibold text-lg leading-tight group-hover/summary:text-primary transition-colors">
+        Unity Packages I've used a lot
+      </h3>
+      <Icon 
+        name="lucide:chevron-down" 
+        class="size-4 text-muted-foreground transition-transform duration-300 group-open:rotate-180 group-hover/summary:text-primary" 
+      />
+    </summary>
+    
+    <div class="mt-4 space-y-4">
+      <div class="flex flex-wrap gap-3 items-center">
+        <div class="flex items-center gap-3 p-2 pr-4 rounded-lg border border-border bg-muted/20 w-fit">
+          <div class="size-8 rounded bg-primary/10 flex items-center justify-center shrink-0">
+            <Icon name="lucide:ethernet-port" class="size-4 text-primary" />
+          </div>
+          <div class="min-w-0">
+            <div class="text-sm font-medium text-foreground">Netcode For Gameobjects</div>
+            <div class="text-[10px] text-muted-foreground leading-none">Networking Solution</div>
+          </div>
+        </div>
+                          
+        <div class="flex items-center gap-3 p-2 pr-4 rounded-lg border border-border bg-muted/20 w-fit">
+          <div class="size-8 rounded bg-primary/10 flex items-center justify-center shrink-0">
+            <Icon name="lucide:cat" class="size-4 text-primary" />
+          </div>
+          <div class="min-w-0">
+            <div class="text-sm font-medium text-foreground">PurrNet / PurrDiction</div>
+            <div class="text-[10px] text-muted-foreground leading-none">Networking Solution</div>
+          </div>
+        </div>
+                          
+        <div class="flex items-center gap-3 p-2 pr-4 rounded-lg border border-border bg-muted/20 w-fit">
+          <div class="size-8 rounded bg-primary/10 flex items-center justify-center shrink-0">
+            <Icon name="lucide:alarm-clock-check" class="size-4 text-primary" />
+          </div>
+          <div class="min-w-0">
+            <div class="text-sm font-medium text-foreground">UniTask</div>
+            <div class="text-[10px] text-muted-foreground leading-none">Unity async / await</div>
+          </div>
+        </div>
+                          
+        <div class="flex items-center gap-3 p-2 pr-4 rounded-lg border border-border bg-muted/20 w-fit">
+          <div class="size-8 rounded bg-primary/10 flex items-center justify-center shrink-0">
+            <Icon name="lucide:brain" class="size-4 text-primary" />
+          </div>
+          <div class="min-w-0">
+            <div class="text-sm font-medium text-foreground">Unity-GOAP</div>
+            <div class="text-[10px] text-muted-foreground leading-none">Goal-Oriented Action Planning AI</div>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-3 p-2 pr-4 rounded-lg border border-border bg-muted/20 w-fit">
+          <div class="size-8 rounded bg-primary/10 flex items-center justify-center shrink-0">
+            <Icon name="lucide:angry" class="size-4 text-primary" />
+          </div>
+          <div class="min-w-0">
+            <div class="text-sm font-medium text-foreground">FacePunch.Steamworks</div>
+            <div class="text-[10px] text-muted-foreground leading-none">Steam Integration</div>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-3 p-2 pr-4 rounded-lg border border-border bg-muted/20 w-fit">
+          <div class="size-8 rounded bg-primary/10 flex items-center justify-center shrink-0">
+            <Icon name="lucide:spool" class="size-4 text-primary" />
+          </div>
+          <div class="min-w-0">
+            <div class="text-sm font-medium text-foreground">YarnSpinner</div>
+            <div class="text-[10px] text-muted-foreground leading-none">Complex Dialogue Framework</div>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-3 p-2 pr-4 rounded-lg border border-border bg-muted/20 w-fit">
+          <div class="size-8 rounded bg-primary/10 flex items-center justify-center shrink-0">
+            <Icon name="lucide:play" class="size-4 text-primary" />
+          </div>
+          <div class="min-w-0">
+            <div class="text-sm font-medium text-foreground">TweenPlayables</div>
+            <div class="text-[10px] text-muted-foreground leading-none">Tween Animation Library</div>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-3 p-2 pr-4 rounded-lg border border-border bg-muted/20 w-fit">
+          <div class="size-8 rounded bg-primary/10 flex items-center justify-center shrink-0">
+            <Icon name="lucide:goal" class="size-4 text-primary" />
+          </div>
+          <div class="min-w-0">
+            <div class="text-sm font-medium text-foreground">FinalIK + Animation Rigging</div>
+            <div class="text-[10px] text-muted-foreground leading-none">IK Solutions</div>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-3 p-2 pr-4 rounded-lg border border-border bg-muted/20 w-fit">
+          <div class="size-8 rounded bg-primary/10 flex items-center justify-center shrink-0">
+            <Icon name="lucide:map-pin-house" class="size-4 text-primary" />
+          </div>
+          <div class="min-w-0">
+            <div class="text-sm font-medium text-foreground">Addressables</div>
+            <div class="text-[10px] text-muted-foreground leading-none">Asset Management</div>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-3 p-2 pr-4 rounded-lg border border-border bg-muted/20 w-fit">
+          <div class="size-8 rounded bg-primary/10 flex items-center justify-center shrink-0">
+            <Icon name="lucide:type" class="size-4 text-primary" />
+          </div>
+          <div class="min-w-0">
+            <div class="text-sm font-medium text-foreground">TMPEffects</div>
+            <div class="text-[10px] text-muted-foreground leading-none">I made this one!</div>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-3 p-2 pr-4 rounded-lg border border-border bg-muted/20 w-fit">
+          <div class="size-8 rounded bg-primary/10 flex items-center justify-center shrink-0">
+            <Icon name="lucide:scroll-text" class="size-4 text-primary" />
+          </div>
+          <div class="min-w-0">
+            <div class="text-sm font-medium text-foreground">Lua-CSharp</div>
+            <div class="text-[10px] text-muted-foreground leading-none">Lua Scripting Integration</div>
+          </div>
+        </div>
+
+        <span class="text-xs text-muted-foreground/60 italic ml-1 select-none self-center">
+          ... and many more!
+        </span>
+      </div>
+    </div>
+  </details>
+</div>
+        </div>
+      </div>
     </div>
   </section>
-  
-  <ContentMedia imgSrc="/tmpeffects.gif" class="mb-64 mt-32" reverseImg>
-    <h2>TMPEffects</h2>
-    <p class="text-2xl">
-      Upgrade your Unity texts!<br>
-      With TMPEffects, you can easily animate your text over time,
-      show and hide text character by character (with specialized animations),
-      and raise events and execute commands at any given index, all of this just using custom rich text tags.<br>
-      A powerful API allows you to create your own animations and commands, either as Monobehaviors (which allow you to easily reference scene objects) or
-      as normal C# classes.
-    <div class="flex flex-col gap-3 min-[500px]:flex-row">
-      <a class="button has-icon" href="https://github.com/Luca3317/TMPEffects">
-        <Icon name="ion:star-outline" />
-        Star on GitHub
-      </a>
-      <a class="button has-icon color-secondary" href="/tmpeffects" target="_blank">
-        <Icon name="ion:bookmark-outline"/>
-        Read more
-      </a>
-    </div> 
-    </p>
-  </ContentMedia>
-<ContentMedia imgSrc="/arieslogo.jpg" class="mb-64 mt-32">
-    <h2>Project Aries</h2>
-    <p class="text-2xl">
-      Ive been doing freelance work for SmokeStackStudios' Project Aries since February 2025.<br/>
-      <a href="https://www.smkstackstudios.com/about">SmokeStackStudios Website</a>
-    </p>
-  </ContentMedia>
-<ContentMedia imgSrc="/fdlogo.png" class="mb-64 mt-32" reverseImg>
-    <h2>Farseer's Domain</h2>
-    <p class="text-2xl">
-      I worked freelance on Farseer's Domain from August 2024 to March 2025.<br/>
-      <a href="https://farseersdomain.com/">Farseer's Domain Website</a>
-    </p>
-  </ContentMedia>
-  <ContentMedia imgSrc="/gamejam.png" class="mb-64 mt-32">
-    <h2>GameJam Entries</h2>
-    <p class="text-2xl">
-      My various entries for GameJams.
- 
-      <ul>
-        <li>Disco Elysium Clone - Made in one month for the July 2024 OGAM Jam<br></li>
-        <li><a href="https://luca3317.itch.io/horror-demo">Horror Demo</a> - Made in free time while working on my Bachelor's degree<br>Complete (but unpolished) First person horror game controller</li>
-        <li><a href="https://luca3317.itch.io/returned">Returned</a> - Made in 9 days for the GameDev.tv Jam.<br>Point and click puzzle adventure game.</li> 
-        <li><a href="https://luca3317.itch.io/endless-terminal-hacking">Endless Terminal Hacking</a> - Made in 2 days for the MixJam 10.<br>Recreation of the hacking minigame in the 3D Fallout games.</li>
-      </ul>  
 
-      <div class="flex flex-col gap-3 min-[500px]:flex-row">
-        <a class="button has-icon" href="https://itch.luca3317.dev">
-          <Icon name="itch-io" />
-          View on itch.io
-        </a>
-      </div>
-    </p>
-  </ContentMedia> 
-  <ContentMedia imgSrc="/openlibrary.png" class="mb-64 mt-32" reverseImg>
-    <h2>OpenLibrary.NET</h2>
-    <p class="text-2xl">
-      An extensive C# library for interfacing with all stable APIs of OpenLibrary by the InternetArchive.
-    <div class="flex flex-col gap-3 min-[500px]:flex-row">
-      <a class="button has-icon" href="https://github.com/Luca3317/OpenLibrary.NET">
-        <Icon name="ion:star-outline" />
-        Star on GitHub
-      </a>
-      <a class="button has-icon color-secondary" href="https://github.com/Luca3317/OpenLibrary.NET/tree/main/docs" target="_blank">
-        <Icon name="ion:bookmark-outline"/>
-        Read the docs
-      </a>
+  <section class="mt-8">
+    <div class="mb-6"><h2 class="text-2xl font-semibold mb-2">Education</h2></div>
+    <div class="space-y-6">
+      {education.map((ed, index) => (
+        <div class="relative">
+          {index < education.length - 1 && (
+            <div class="absolute left-[11px] top-8 bottom-0 w-px bg-border" aria-hidden="true"></div>
+          )}
+          <div class="flex gap-4">
+            <div class="relative flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center ring-4 ring-background z-10 bg-muted text-muted-foreground">
+              <Icon name={ed.icon} class="size-3.5" />
+            </div>
+            <div class="flex-1 pb-2 min-w-0">
+              <div class="mb-1">
+                <h3 class="font-semibold text-lg leading-tight">{ed.degree}</h3>
+                {ed.institution && <p class="text-sm text-muted-foreground">{ed.institution}</p>}
+              </div>
+              <p class="text-sm text-muted-foreground/90 leading-relaxed mt-2">{ed.key}</p>
+            </div>
+          </div>
+        </div>
+      ))}
     </div>
-    </p>
-  </ContentMedia>
-  <ContentMedia imgSrc="" class="mb-64 mt-32">
-    <h2>University Projects</h2>
-    <p class="text-2xl">
-      
-      <h5>Lab: "Ghidra PlugIn: Detecting unsecure functions"</h5>
-      <p style="margin-left:5em;">
-      Development of a plugin for Ghidra (a suite of reverse engineering tools developed by the NSA) that serves to automatically detect various categories of unsecure C functions:<br>
-      Null Pointer Dereference (CWE-476), Out-of-Bounds Access and Buffer Overflow (CWE-125 and CWE-787), and Use-After-Free and Double Free (CWE-416 and CWE-415 respectively).
-      </p>
+  </section>
 
-      <div class="flex flex-col gap-3 min-[500px]:flex-row">
-        <a class="button has-icon" href="/LabReport.pdf" download="LucaWeist_LabReport">
-          <Icon name="mdi:paper-outline" />
-          Paper PDF (Download)
-        </a>
-        <a
-          class="button has-icon color-secondary"
-          href="https://github.com/Luca3317/GhidraPlugin"
-        >
-          <Icon name="ion:logo-github" />
-          PlugIn Repository
-        </a>
+  <section class="mt-12">
+    <div class="mb-6">
+      <h2 class="text-2xl font-semibold mb-2">Projects</h2>
+      <p class="text-sm text-muted-foreground">Some of the projects I've worked on</p>
+    </div>
+
+    <div class="mt-8">
+      {projects.map((project, index) => (
+        <>
+          <div class={cn("relative group rounded-xl transition-all duration-200 -mx-3 px-3 py-4", project.link ? "hover:bg-muted/40 cursor-pointer" : "")}>
+            {project.link && <a href={project.link} target="_blank" rel="noopener noreferrer" class="absolute inset-0 z-20" />}
+            <div class={cn("flex flex-col gap-8", project.image ? (index % 2 !== 0 ? "sm:flex-row-reverse items-center" : "sm:flex-row items-center") : "items-start")}>
+              {project.image && (
+                <div class="w-full sm:w-72 shrink-0 flex items-center justify-center">
+                  {project.image.endsWith('.mp4') || project.image.endsWith('.webm') ? (
+                    <video src={project.image} autoplay loop muted playsinline class="w-full h-auto rounded-lg object-contain" />
+                  ) : (
+                    <img src={project.image} alt={project.title} class="w-full h-auto rounded-lg object-contain transition-transform duration-500 group-hover:scale-105" />
+                  )}
+                </div>
+              )}
+              <div class="flex-1 space-y-3 flex flex-col justify-center w-full">
+                <div class="space-y-1">
+                  <h3 class={cn("font-bold text-2xl tracking-tight transition-all duration-300", project.link ? "group-hover:text-primary group-hover:translate-x-1" : "text-foreground")}>
+                    {project.title}
+                  </h3>
+                  <div class="h-0.5 w-10 bg-primary/20 rounded-full group-hover:w-16 transition-all duration-300"></div>
+                </div>
+                <div class="space-y-2">
+                  {project.description.split('\n').map((line) => {
+                    const trimmed = line.trim();
+                    if (trimmed.startsWith('•') || trimmed.startsWith('-')) {
+                      return (
+                        <div class="flex gap-2 text-sm text-muted-foreground/90 ml-1">
+                          <span class="text-primary mt-1.5 h-1 w-1 shrink-0 rounded-full bg-primary/60" />
+                          <span set:html={trimmed.replace(/^[•-]\s*/, '')} />
+                        </div>
+                      );
+                    }
+                    return <p class="text-sm text-muted-foreground/90 leading-relaxed" set:html={line} />;
+                  })}
+                </div>
+              </div>
+            </div>
+          </div>
+          {index < projects.length - 1 && <div class="py-2"><div class="h-px w-full bg-gradient-to-r from-transparent via-border/40 to-transparent" /></div>}
+        </>
+      ))}
+    </div>
+  </section>
+
+  {latestPosts && latestPosts.length > 0 && (
+    <section class="mt-12">
+      <div class="mb-6 flex items-center justify-between">
+        <h2 class="text-2xl font-semibold">Latest from the blog</h2>
+        <Link href="/blog" class={buttonVariants({ variant: 'ghost' }) + ' hidden sm:flex items-center gap-1.5'}>
+          View all <Icon name="lucide:arrow-right" class="size-4" />
+        </Link>
       </div>
-      <br>
-            
+      <div class="space-y-2">
+        {latestPosts.map((post) => <BlogCard entry={post} />)}
+      </div>
+    </section>
+  )}
 
-      
-      <h5>Bachelor's Thesis: "Performance Evaluation of Security Protocols in LibP2P Connections"</h5>
-      <p style="margin-left:5em;">
-        In-depth performance analysis of the various existing security protocols for LibP2P (a modular, open-source protocol stack and library for the development of peer-to-peer networking applications).<br>
-        In the course of this, also an implementation of the Signal protocol compatible with LibP2P in Golang.        <br>
-      </p>
-
-      <div class="flex flex-col gap-3 min-[500px]:flex-row">
-        <a class="button has-icon" href="/Thesis.pdf" download="LucaWeist_Thesis">
-          <Icon name="mdi:paper-outline" />
-          Thesis PDF (Download)
-        </a>
-        <a 
-        class="button has-icon color-secondary"
-        href="https://github.com/Luca3317/SignalLibP2P"
-      >
-        <Icon name="ion:logo-github" />
-        Protocol Repository
-      </a>
-      </div> 
-    </p>
-  </ContentMedia> 
-</DefaultLayout>
-
+  <section class="mt-12 sm:mt-24">
+    <div class="max-w-2xl mx-auto">
+      <div class="mb-12 relative">
+        <div class="absolute inset-0 flex items-center" aria-hidden="true"><div class="w-full border-t border-border" /></div>
+        <div class="relative flex justify-center">
+          <div class="flex items-center gap-2.5 px-4 py-2 rounded-full bg-background border border-border shadow-sm">
+            <span class="relative flex h-1.5 w-1.5">
+              <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75" />
+              <span class="relative inline-flex rounded-full h-1.5 w-1.5 bg-primary" />
+            </span>
+            <span class="text-xs font-medium text-muted-foreground uppercase tracking-wider">Available</span>
+          </div>
+        </div>
+      </div>
+      <Contact />
+    </div>
+  </section>
+</Layout>
