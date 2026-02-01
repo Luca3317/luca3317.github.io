@@ -11,6 +11,14 @@ export const SITE: Site = {
   postsPerPage: 0,
 }
 
+export const ABOUT_TEXT = `
+  I'm Luca, a passionate Game Developer from Germany. I picked up game development in 2019 as a hobby while studying computer science at the University of Bonn, and it quickly became a passion and now more recently also my profession.
+  <br /><br />
+  During the ~1.5 years I've been working professionally as a game developer, I've focused on gameplay programming and taking over generalist roles as both projects I have worked on have been relatively small teams. This has allowed me to gain experience in various areas of game development and more specifically the Unity engine. <br /> I currently work freelance as a Junior-Intermediate Developer at SmokeStack Studios.
+  <br /><br />
+  Beyond gameplay programming, I have an interest in <strong>tooling and systems development</strong> that help accelerate development workflows. I enjoy creating packages and editor extensions that allow other developers and artists to work more efficiently.
+`;
+
 // Google Analytics
 // Configure via environment variable: PUBLIC_GOOGLE_ANALYTICS_ID
 export const ANALYTICS = {
@@ -43,13 +51,19 @@ export const BREVO = {
 
 export const NAV_LINKS: SocialLink[] = [
   {
+    href: '/',
+    label: 'Home',
+  },
+  {
     href: '/tmpeffects',
     label: 'TMPEffects',
   },
+  /*
   {
     href: '/blog',
     label: 'Blog',
   },
+  */
   {
     href: '/about',
     label: 'About',

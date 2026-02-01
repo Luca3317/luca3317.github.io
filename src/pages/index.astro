@@ -175,11 +175,14 @@ const experience: ExperienceItem[] = [
   <script type="application/ld+json" set:html={JSON.stringify(organizationSchema)} />
   <script type="application/ld+json" set:html={JSON.stringify(websiteSchema)} />
   
-<section class="min-h-[calc(100vh-4rem)] flex flex-col justify-center pb-60 sm:pb-32 mb-12 sm:mb-24 relative">
+<section class="min-h-[60vh] sm:min-h-[calc(100vh-4rem)] flex flex-col justify-center pb-20 sm:pb-32 mb-12 sm:mb-24 relative">
   <Home />
-  <div class="absolute bottom-32 sm:bottom-12 left-1/2 -translate-x-1/2 animate-bounce text-muted-foreground/50">
-    <Icon name="lucide:chevron-down" class="size-6" />
-  </div>
+<div class="absolute bottom-10 sm:bottom-12 left-1/2 -translate-x-1/2 animate-bounce text-muted-foreground/50 sm:text-muted-foreground/90">
+  <Icon 
+    name="lucide:chevron-down" 
+    class="size-6 sm:size-10 sm:stroke-[3px]" 
+  />
+</div>
 </section>
 
 <section class="mt-16 mb-12">
@@ -478,6 +481,8 @@ const experience: ExperienceItem[] = [
     </div>
   </section>
 
+  {/* 
+  <!-- Blog -->
   {latestPosts && latestPosts.length > 0 && (
     <section class="mt-12">
       <div class="mb-6 flex items-center justify-between">
@@ -491,6 +496,7 @@ const experience: ExperienceItem[] = [
       </div>
     </section>
   )}
+    */}
 
   <section class="mt-12 sm:mt-24">
     <div class="max-w-2xl mx-auto">

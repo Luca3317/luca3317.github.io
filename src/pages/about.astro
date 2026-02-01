@@ -5,6 +5,7 @@ import Link from '@/components/Link.astro'
 import Layout from '@/layouts/Layout.astro'
 import { Icon } from 'astro-icon/components'
 import { SITE } from '@/consts'
+import { ABOUT_TEXT } from '@/consts'
 
 // Person Schema for About page
 const personSchema = {
@@ -29,7 +30,7 @@ const personSchema = {
       <div>
         <h1 class="text-3xl md:text-4xl font-bold">About</h1>
         <p class="text-sm text-muted-foreground font-mono mt-1">
-          Learn more about this blog
+          What this page is about
         </p>
       </div>
     </div>
@@ -37,12 +38,11 @@ const personSchema = {
     <!-- Main Content -->
     <div class="prose prose-sm dark:prose-invert max-w-none space-y-6">
       <p class="text-muted-foreground leading-relaxed">
-        Welcome to <strong class="text-primary">{SITE.title}</strong>! 
-        This is a placeholder about page. Customize this content to tell your visitors about yourself, your blog, or your interests.
-      </p>
-
-      <p class="text-muted-foreground leading-relaxed">
-        You can edit this page by modifying <code class="text-sm bg-muted px-1.5 py-0.5 rounded">src/pages/about.astro</code>.
+        Welcome to my website!<br>
+        On here I share my portfolio, projects, and resume. I will also start devlogs for personal projects I'm working on soon.
+        <br><br>
+        <h3>About Me</h3>
+        <p set:html={ABOUT_TEXT} />
       </p>
     </div>
   </section>
