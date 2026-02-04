@@ -284,8 +284,13 @@ const experience: ExperienceItem[] = [
         </div>
       ))}
 
+<div class="py-8 px-3">
+  <div class="h-px w-full bg-gradient-to-r from-transparent via-border/60 to-transparent"></div>
+</div>
+
       <div class="relative rounded-xl transition-all duration-200 -mx-3 px-3 py-2">
         <div class="flex gap-4 relative z-10">
+          
           <div class="relative flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center ring-4 ring-background z-10 bg-muted text-muted-foreground">
             <Icon name="lucide:box" class="size-3.5" />
           </div>
@@ -420,6 +425,67 @@ const experience: ExperienceItem[] = [
     </div>
   </details>
 </div>
+
+
+
+        </div>
+      </div>
+
+            <div class="relative rounded-xl transition-all duration-200 -mx-3 px-3 py-2">
+        <div class="flex gap-4 relative z-10">
+          
+          <div class="relative flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center ring-4 ring-background z-10 bg-muted text-muted-foreground">
+            <Icon name="lucide:ghost" class="size-3.5" />
+          </div>
+
+<div class="flex-1 pb-2 min-w-0">
+  <details class="group">
+    <summary class="group/summary flex items-center justify-between cursor-pointer list-none outline-none select-none">
+      <h3 class="font-semibold text-lg leading-tight group-hover/summary:text-primary transition-colors">
+        Current personal project
+      </h3>
+      <Icon 
+        name="lucide:chevron-down" 
+        class="size-4 text-muted-foreground transition-transform duration-300 group-open:rotate-180 group-hover/summary:text-primary" 
+      />
+    </summary>
+    
+    <div class="mt-4 space-y-4">
+      <p class="text-sm text-muted-foreground/90 leading-relaxed">
+        A survival horror game in the vein of Night of the Nun and Alien: Isolation, with optional co-op.
+        </p>
+
+      <div class="flex flex-wrap gap-3 items-center">
+        <div class="flex items-center gap-3 p-2 pr-4 rounded-lg border border-border bg-muted/20 w-fit">
+          <div class="size-8 rounded bg-primary/10 flex items-center justify-center shrink-0">
+            <Icon name="lucide:layers" class="size-4 text-primary" />
+          </div>
+          <div class="min-w-0">
+            <div class="text-sm font-medium text-foreground">Unity</div>
+            <div class="text-[10px] text-muted-foreground leading-none">Engine</div>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-3 p-2 pr-4 rounded-lg border border-border bg-muted/20 w-fit">
+          <div class="size-8 rounded bg-primary/10 flex items-center justify-center shrink-0">
+            <Icon name="lucide:cpu" class="size-4 text-primary" />
+          </div>
+          <div class="min-w-0">
+            <div class="text-sm font-medium text-foreground">PurrNet/Diction</div>
+            <div class="text-[10px] text-muted-foreground leading-none">Networking solution</div>
+          </div>
+        </div>
+      </div>
+
+      <p class="text-xs text-muted-foreground/60 italic">
+        In development since late December 2025.
+      </p>
+    </div>
+  </details>
+</div>
+
+
+
         </div>
       </div>
     </div>
@@ -452,8 +518,8 @@ const experience: ExperienceItem[] = [
 
   <section class="mt-12">
     <div class="mb-6">
-      <h2 class="text-2xl font-semibold mb-2">Projects</h2>
-      <p class="text-sm text-muted-foreground">Some of the projects I've worked on</p>
+      <h2 class="text-2xl font-semibold mb-2">Other Projects</h2>
+      <p class="text-sm text-muted-foreground">Some of the non-game projects I've worked on</p>
     </div>
 
     <div class="mt-8">
